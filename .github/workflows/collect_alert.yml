@@ -1,0 +1,25 @@
+name: Collect + Alert (5m)
+on:
+  schedule:
+    - cron: '*/5 * * * 1-5'  # 평일 5분마다
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: Install deps
+        run: pip install yfinance ta duckdb pandas notion-client
+      - name: Collector & Alert
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_PRICE_DB_ID: ${{ secrets.NOTION_PRICE_DB_ID }}
+          NOTION_ALERT_DB_ID: ${{ secrets.NOTION_ALERT_DB_ID }}
+          TICKERS: ${{ secrets.TICKERS }}
+        run: |
+          python pipeline/collector.py
+          python pipeline/indicator.py
+          python pipeline/alert.py
