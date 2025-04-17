@@ -23,3 +23,4 @@ jobs:
           python pipeline/collector.py
           python pipeline/indicator.py
           python pipeline/alert.py
+          python pipeline/push_price.py 
