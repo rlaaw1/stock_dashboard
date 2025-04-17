@@ -11,7 +11,8 @@ for t in TICKERS:
         bars.append(df5.tail(1))
     except KeyError:
         continue
-out=pd.concat(bars)
-db().execute("CREATE TABLE IF NOT EXISTS bars AS SELECT * FROM out LIMIT 0")
-db().append("bars", out.reset_index())
+out = pd.concat(bars).reset_index() 
+conn = db()
+conn.execute("CREATE TABLE IF NOT EXISTS bars AS SELECT * FROM out LIMIT 0")
+conn.append("bars", out)
 print("✓ collector saved", len(out))
