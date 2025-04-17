@@ -12,7 +12,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: Install deps
-        run: pip install yfinance ta duckdb pandas notion-client
+        run: pip install yfinance ta duckdb pandas notion-client pyarrow
       - name: Collector & Alert
         env:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
